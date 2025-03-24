@@ -1,33 +1,42 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
+import AccountRow from './AccountRow'
+
+
 
 export default function AccountsTable({ initialAccounts }) {
+    const [accounts, setAccounts] = useState(initialAccounts)
+
+    async function handleTypeChange(type) {
+        const response = await fetch(`http://localhost:3000/api/accounts?type=${type}`)
+        const accounts = await response.json()
+        setAccounts(accounts)
+    }
+
     return (
-        <table id="accounts">
-            <thead>
-                <tr>
-                    <th>Account No</th>
-                    <th>Account Type</th>
-                    <th>Balance</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {initialAccounts.map(acct =>
-                    <tr id="row-{acct.accountNo}">
-                        <td>{acct.accountNo}</td>
-                        <td>{acct.acctType}</td>
-                        <td>{acct.balance}</td>
-                        <td>
-                            {acct.balance == 0 ?
-                                <button onclick="handleDeleteAccount('${acct.accountNo}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                                : ''
-                            }
-                        </td>
+        <>
+            <label for="acctType">
+                Account Type
+            </label>
+            <select id="acctType" onChange={e => handleTypeChange(e.target.value)} className="filter-dropdown">
+                <option value="All">All</option>
+                <option value="Saving">Saving</option>
+                <option value="Current">Current</option>
+            </select>
+            <table id="accounts">
+                <thead>
+                    <tr>
+                        <th>Account No</th>
+                        <th>Account Type</th>
+                        <th>Balance</th>
+                        <th>Action</th>
                     </tr>
-                )}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {accounts.map(acct => <AccountRow account={acct} />
+                    )}
+                </tbody>
+            </table>
+        </>
     )
 }
