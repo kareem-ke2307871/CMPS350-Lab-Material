@@ -1,15 +1,14 @@
 import { Inter } from 'next/font/google'
+import AccountsTable from './components/AccountsTable'
 const inter = Inter({ subsets: ['latin'] })
-
+import accountsRepo from '@/app/repo/accounts-repo'
 
 export default async function Home() {
-  // we will fetch the data here
-
-
-  // we will get the data
-  // const accounts = 
+  const accounts = await accountsRepo.getAccounts('All')
   return (
-    <><h1 className={'background-red'}>Welcome to React/Next Pages</h1></>
+    <>
+      <AccountsTable initialAccounts={accounts} />
+    </>
   )
 }
 

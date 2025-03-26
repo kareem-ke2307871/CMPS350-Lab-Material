@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 export default function NavBar() {
     return (
@@ -6,13 +7,13 @@ export default function NavBar() {
             <ul className="navbar-nav">
                 <li>Alpha Bank</li>
                 <li>
-                    <a href="/">Home</a>
+                    <Link href="/">Home</Link>
                 </li>
                 <li>
-                    <a href="/accounts/upsert">Add Account</a>
+                    <Link href="/accounts/upsert">Add Account</Link>
                 </li>
                 <li>
-                    <a href="/accounts/trans/add">Add Transaction</a>
+                    <Link href="/accounts/trans/add">Add Transaction</Link>
                 </li>
             </ul>
         </nav>

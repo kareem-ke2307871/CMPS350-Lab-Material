@@ -200,6 +200,15 @@ table th {
     border: 3px solid #0069ed;
 }
 
+.footer {
+    text-align: center;
+    margin-top: 2em;
+    padding: 1em;
+    background: #0069ed;
+    color: white;
+    border-radius: 8px;
+}
+
 /* Responsive Layout */
 @media screen and (max-width: 750px) {
     body {

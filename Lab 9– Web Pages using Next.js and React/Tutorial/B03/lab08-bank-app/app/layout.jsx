@@ -1,4 +1,5 @@
 import Accounts from './accounts/page'
+import Footer from './components/Footer'
 import NavBar from './components/NavBar'
 import './globals.css'
 
@@ -17,7 +18,7 @@ export default function RootLayout({ children }) {
         {/* Navigation */}
         <NavBar />
         {children}
-        {/* Footer */}
+        <Footer />
       </body>
     </html>
   )
