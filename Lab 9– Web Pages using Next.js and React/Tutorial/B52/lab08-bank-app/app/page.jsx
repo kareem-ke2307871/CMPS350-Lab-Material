@@ -17,3 +17,6 @@ export default async function Home() {
   )
 }
 
+
+// Server componenet [server ]
+// Client Componenets [any user interaction ] -- onclick, onchange, onsubmit
