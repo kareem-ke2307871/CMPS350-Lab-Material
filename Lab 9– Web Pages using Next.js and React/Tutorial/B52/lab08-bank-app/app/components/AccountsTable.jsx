@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import AccountsRow from './AccountsRow'
 
 export default function AccountsTable({ initialAccounts }) {
     const [accounts, setAccounts] = useState(initialAccounts)
@@ -46,26 +47,11 @@ export default function AccountsTable({ initialAccounts }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {accounts.map(acct => <tr id={'row-' + acct.accountNo}>
-                        <td><img src={acct.profileImage} alt="Profile Image" className="profile-pic" /></td>
-                        <td>{acct.firstname}</td>
-                        <td>{acct.lastname}</td>
-                        <td>{acct.gender}</td>
-                        <td>{acct.accountNo}</td>
-                        <td>{acct.acctType}</td>
-                        <td>{acct.balance} QR</td>
-                        <td>{acct.email}</td>
-                        <td>{acct.dateOpened}</td>
-                        <td>
-                            {acct.balance >= 0 ?
-                                <button onclick={e => handleDeleteAccount(acct.accountNo)} className="btn-delete">
-                                    <i className="fas fa-trash">Delete</i>
-                                </button> : ''}
-                            <button onclick="handleEditAccount('${acct.accountNo}')" className="btn-edit">
-                                <i className="fas fa-edit">Edit</i>
-                            </button>
-                        </td>
-                    </tr>)}
+                    {
+                        accounts.map(account =>
+                            <AccountsRow acct={account} onDeleteAccount={handleDeleteAccount} />
+                        )
+                    }
                 </tbody>
             </table>
         </>
