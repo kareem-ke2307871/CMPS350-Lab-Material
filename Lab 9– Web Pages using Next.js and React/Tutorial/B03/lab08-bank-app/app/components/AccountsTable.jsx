@@ -1,18 +1,29 @@
 'use client'
 import { React, useState } from 'react'
+import AccountRow from './AccountRow';
 
 
 export default function AccountsTable({ initialAccounts }) {
 
     const [accounts, setAccounts] = useState(initialAccounts)
-    // localhost:3000/accounts/AC9mVA
+    const [type, setType] = useState('All')
+
+    async function handleDeleteAccount(accountNo) {
+        if (!confirm('Are you sure you want to delete this account?')) {
+            return;
+        }
+        const BASE_URL = `http://localhost:3000/api/accounts/${accountNo}`;
+        const response = await fetch(BASE_URL, { method: 'DELETE' });
+        handleLoadAccounts(type);
+    }
+
     async function handleLoadAccounts(type) {
         const BASE_URL = `http://localhost:3000/api/accounts?type=${type}`;
         const response = await fetch(BASE_URL);
         const filteredAccounts = await response.json();
         console.log(filteredAccounts)
         setAccounts(filteredAccounts);
-        // accounts = filteredAccounts
+        setType(type);
 
     }
     return (
@@ -20,7 +31,7 @@ export default function AccountsTable({ initialAccounts }) {
             <label htmlFor="acctType">
                 Account Type
             </label>
-            <select id="acctType" onChange={e => handleLoadAccounts(e.target.value)} className={"filter-dropdown"}>
+            <select id="acctType" onChange={e => handleLoadAccounts(e.target.value)} className={"filter-dropdown"} value={type}>
                 <option value="All">All</option>
                 <option value="Saving">Saving</option>
                 <option value="Current">Current</option>
@@ -41,26 +52,9 @@ export default function AccountsTable({ initialAccounts }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {accounts.map(acct => <tr id={"row-" + acct.accountNo}>
-                        <td><img src={acct.profileImage} alt="Profile Image" class="profile-pic" /></td>
-                        <td>{acct.firstname}</td>
-                        <td>{acct.lastname}</td>
-                        <td>{acct.gender}</td>
-                        <td>{acct.accountNo}</td>
-                        <td>{acct.acctType}</td>
-                        <td>{acct.balance} QR</td>
-                        <td>{acct.email}</td>
-                        <td>{acct.dateOpened}</td>
-                        <td>
-                            {acct.balance >= 0 ?
-                                <button onclick="handleDeleteAccount('${acct.accountNo}')" class="btn-delete">
-                                    <i class="fas fa-trash">Delete</i>
-                                </button> : ''}
-                            <button onclick="handleEditAccount('${acct.accountNo}')" class="btn-edit">
-                                <i class="fas fa-edit">Edit</i>
-                            </button>
-                        </td>
-                    </tr>
+                    {accounts.map(acct =>
+                        <AccountRow acct={acct}
+                            handleDeleteAccount={handleDeleteAccount} />
                     )}
                 </tbody>
             </table>
