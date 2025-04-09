@@ -16,7 +16,7 @@ export default function AddOrEdit() {
         const method = 'POST'
 
         const options = {
-            method: 'method',
+            method,
             headers: {
                 'Content-Type': 'application/json'
             },
