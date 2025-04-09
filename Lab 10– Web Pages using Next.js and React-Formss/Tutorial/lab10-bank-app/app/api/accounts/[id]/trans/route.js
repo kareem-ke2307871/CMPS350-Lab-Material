@@ -10,5 +10,5 @@ export async function POST(request, { params }) {
 export async function GET(request, { params }) {
     const accountNo = params.id
     const transactions = await accountRepo.getTransactions(accountNo)
-    return Response.json(response)
+    return Response.json(transactions)
 }

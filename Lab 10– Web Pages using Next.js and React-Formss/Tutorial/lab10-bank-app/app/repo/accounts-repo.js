@@ -66,7 +66,7 @@ class AccountsRepo {
                 account.balance += transaction.amount;
             else if (transaction.transType == 'Withdraw')
                 if (account.balance < transaction.amount)
-                    return "Insufficient balance";
+                    return { message: 'Insufficient balance' };
                 else
                     account.balance -= transaction.amount;
 

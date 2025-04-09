@@ -33,7 +33,12 @@ export default function AddOrEdit() {
             },
             body: JSON.stringify(account)
         }
-        await fetch(url, options)
+        const response = await fetch(url, options)
+        if (response.ok)
+            alert('Account saved successfully')
+        else
+            alert('Error saving account')
+
         router.push('/', undefined, { shallow: true })
 
     }
