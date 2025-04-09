@@ -20,6 +20,7 @@ class AccountsRepo {
     async addAccount(account) {
         account.accountNo = nanoid().slice(0, 4)
         const accounts = await this.getAccounts()
+        account.balance = parseInt(account.balance.toString());
         accounts.push(account)
         await fs.writeJSON(this.filePath, accounts)
         return account
