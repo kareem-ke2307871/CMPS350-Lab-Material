@@ -21,7 +21,6 @@ class AccountsRepo {
 
         account.accountNo = nanoid().slice(0, 4)
         account.balance = parseInt(account.balance.toString());
-
         const accounts = await this.getAccounts()
         accounts.push(account)
         await fs.writeJSON(this.filePath, accounts)
