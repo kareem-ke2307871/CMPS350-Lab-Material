@@ -1,12 +1,17 @@
 'use client'
-import { useRouter } from 'next/navigation';
-import React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useState } from 'react'
+
 
 
 
 export default function AddOrEdit() {
 
     const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const [account, setAccount] = useState(Object.fromEntries(searchParams.entries() || {}))
+
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -23,18 +28,24 @@ export default function AddOrEdit() {
             },
             body: JSON.stringify(data)
         })
+        router.push('/', undefined, { shallow: true });
+    }
 
-        router.push('/')
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setAccount({ ...account, [name]: value });
+        console.log({ ...account, [name]: value });
 
     }
 
-
     return (
         <>
-            <h3>Add Account</h3>
+            {account.accountNo ? <h3>Edit Account</h3> : <h3>Add Account</h3>}
+
+
             <form id="account-form" onSubmit={handleSubmit}>
                 <label for="firstname">First Name</label>
-                <input type="text" name="firstname" id="firstname" />
+                <input type="text" name="firstname" id="firstname" value={account.firstname} onChange={handleChange} />
 
                 <label for="lastname">Last Name</label>
                 <input type="text" name="lastname" id="lastname" />

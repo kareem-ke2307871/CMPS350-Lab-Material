@@ -7,14 +7,14 @@ export default function AccountsTable({ initialAccounts }) {
     const [accounts, setAccounts] = useState(initialAccounts)
 
     async function handleLoadAccounts(acctType) {
-        const response = await fetch(`http://localhost:3000/api/accounts?type=${acctType}`)
+        const response = await fetch(`/api/accounts?type=${acctType}`)
         const filteredAccounts = await response.json()
         setAccounts(filteredAccounts)
     }
     async function handleDeleteAccount(accountNo) {
         if (!confirm('Are you sure you want to delete this account?')) return
 
-        const response = await fetch(`http://localhost:3000/api/accounts/${accountNo}`, {
+        const response = await fetch(`/api/accounts/${accountNo}`, {
             method: 'DELETE'
         })
         if (response.ok) handleLoadAccounts('All')

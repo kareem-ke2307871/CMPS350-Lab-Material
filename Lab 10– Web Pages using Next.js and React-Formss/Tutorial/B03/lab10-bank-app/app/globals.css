@@ -189,6 +189,7 @@ table th {
     background-size: 1em auto, 100%;
     appearance: none;
     margin-bottom: 1rem;
+    margin-left: 1rem;
 }
 
 /* Profile Pic */
