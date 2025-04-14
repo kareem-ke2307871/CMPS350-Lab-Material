@@ -1,8 +1,11 @@
 'use client'
 import React from 'react'
+import { useRouter } from 'next/navigation'
 // import accountsRepo from '@/app/repo/accounts-repo'
 
 export default function AddOrEdit() {
+    const router = useRouter()
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         const formData = new FormData(e.target)
@@ -17,6 +20,7 @@ export default function AddOrEdit() {
         }
         await fetch(url, options);
         // navigate to the home page
+        router.push('/')
 
     }
 
