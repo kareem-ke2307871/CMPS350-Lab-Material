@@ -23,16 +23,14 @@ export default function AccountsTable({ initialAccounts }) {
 
     return (
         <>
-            <form action="#">
-                <label htmlFor="acctType">
-                    Account Type
-                </label>
-                <select id="acctType" onChange={e => handleLoadAccounts(e.target.value)} className="filter-dropdown">
-                    <option value="All">All</option>
-                    <option value="Saving">Saving</option>
-                    <option value="Current">Current</option>
-                </select>
-            </form>
+            <label for="acctType">
+                Account Type
+            </label>
+            <select id="acctType" onChange={e => handleLoadAccounts(e.target.value)} className="filter-dropdown">
+                <option value="All">All</option>
+                <option value="Saving">Saving</option>
+                <option value="Current">Current</option>
+            </select>
             <table id="accounts">
                 <thead>
                     <tr>
@@ -50,9 +48,9 @@ export default function AccountsTable({ initialAccounts }) {
                 </thead>
                 <tbody>
                     {
-                        accounts.map((acct, index) =>
+                        accounts.map(acct =>
                             <AccountRow
-                                key={index}
+                                key={acct.id}
                                 acct={acct}
                                 onDeleteAccount={handleDeleteAccount}
                             />
