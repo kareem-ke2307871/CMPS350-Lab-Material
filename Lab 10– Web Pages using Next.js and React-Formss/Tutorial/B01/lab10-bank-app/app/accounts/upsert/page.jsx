@@ -12,9 +12,18 @@ export default function AddOrEdit() {
         e.preventDefault()
         const formData = new FormData(e.target)
         const account = Object.fromEntries(formData)
-        const url = `/api/accounts`
+
+        let method = 'POST'
+        let url = `/api/accounts/`
+
+        if (accountToEdit.accountNo) {
+            method = 'PUT';
+            url = `/api/accounts/${accountToEdit.accountNo}`
+        }
+
+
         const options = {
-            method: 'POST',
+            method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -28,33 +37,35 @@ export default function AddOrEdit() {
 
     return (
         <>
-            <h3>Add Account</h3>
+            {<h3>{accountToEdit.accountNo ? 'Edit Account' : 'Add Account'}</h3>}
             <form id="account-form" onSubmit={handleSubmit}>
                 <label htmlFor="firstname">First Name</label>
                 <input type="text" name="firstname" id="firstname"
                     defaultValue={accountToEdit.firstname} />
 
                 <label htmlFor="lastname">Last Name</label>
-                <input type="text" name="lastname" id="lastname" />
+                <input type="text" name="lastname" id="lastname"
+                    defaultValue={accountToEdit.lastname}
+                />
 
                 <label htmlFor="acctType">Account Type</label>
-                <select name="acctType" id="acctType" required>
+                <select name="acctType" id="acctType" required defaultValue={accountToEdit.acctType}>
                     <option value=""></option>
                     <option value="Saving">Saving</option>
                     <option value="Current">Current</option>
                 </select>
 
                 <label htmlFor="balance">Balance</label>
-                <input type="number" name="balance" id="balance" required />
+                <input type="number" name="balance" id="balance" required defaultValue={accountToEdit.balance} />
 
                 <label htmlFor="email">Email</label>
-                <input type="email" name="email" id="email" />
+                <input type="email" name="email" id="email" defaultValue={accountToEdit.email} />
 
                 <label htmlFor="dateOpened">Date Opened</label>
-                <input type="date" name="dateOpened" id="dateOpened" />
+                <input type="date" name="dateOpened" id="dateOpened" defaultValue={accountToEdit.dateOpened} />
 
                 <label htmlFor="gender">Gender</label>
-                <select name="gender" id="gender" required>
+                <select name="gender" id="gender" required defaultValue={accountToEdit.gender}>
                     <option value=""></option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -62,7 +73,7 @@ export default function AddOrEdit() {
                 </select>
 
                 <label htmlFor="profileImage">Profile Image URL</label>
-                <input type="url" name="profileImage" id="profileImage" />
+                <input type="url" name="profileImage" id="profileImage" defaultValue={accountToEdit.profileImage} />
 
                 <button type="Submit">Submit</button>
             </form>
