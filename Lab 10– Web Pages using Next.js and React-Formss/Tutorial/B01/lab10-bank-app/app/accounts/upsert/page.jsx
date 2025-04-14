@@ -1,10 +1,12 @@
 'use client'
 import React from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 // import accountsRepo from '@/app/repo/accounts-repo'
 
 export default function AddOrEdit() {
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const accountToEdit = Object.fromEntries(searchParams.entries())
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -29,7 +31,8 @@ export default function AddOrEdit() {
             <h3>Add Account</h3>
             <form id="account-form" onSubmit={handleSubmit}>
                 <label htmlFor="firstname">First Name</label>
-                <input type="text" name="firstname" id="firstname" />
+                <input type="text" name="firstname" id="firstname"
+                    defaultValue={accountToEdit.firstname} />
 
                 <label htmlFor="lastname">Last Name</label>
                 <input type="text" name="lastname" id="lastname" />

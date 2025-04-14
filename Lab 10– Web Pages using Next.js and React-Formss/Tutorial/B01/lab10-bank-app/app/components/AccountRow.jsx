@@ -23,7 +23,12 @@ export default function AccountRow({ acct, onDeleteAccount }) {
                         <i className="fas fa-trash">Delete</i>
                     </button> : ''}
 
-                <Link href="/accounts/upsert">
+                <Link href={
+                    {
+                        pathname: "/accounts/upsert",
+                        query: acct
+                    }
+                }>
                     <button className="btn-edit">
                         <i className="fas fa-edit">Edit</i>
                     </button>
