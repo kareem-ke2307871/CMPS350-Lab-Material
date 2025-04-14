@@ -5,6 +5,6 @@ import { redirect } from "next/navigation"
 
 export const handleAddOrUpdateAccountAction = async (formData) => {
     const account = Object.fromEntries(formData)
-    console.log(account);
-
+    accountsRepo.addAccount(account)
+    revalidatePath('/')
 }
