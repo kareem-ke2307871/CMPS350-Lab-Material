@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 export default function AccountRow({ acct, onDeleteAccount }) {
@@ -17,13 +18,17 @@ export default function AccountRow({ acct, onDeleteAccount }) {
             <td>{acct.email}</td>
             <td>{acct.dateOpened}</td>
             <td>
-                {acct.balance >= 0 ?
+                {acct.balance == 0 ?
                     <button onClick={e => onDeleteAccount(acct.accountNo)} className="btn-delete">
                         <i className="fas fa-trash">Delete</i>
                     </button> : ''}
-                <button onclick="handleEditAccount('{acct.accountNo}')" className="btn-edit">
-                    <i className="fas fa-edit">Edit</i>
-                </button>
+
+                <Link href="/accounts/upsert">
+                    <button className="btn-edit">
+                        <i className="fas fa-edit">Edit</i>
+                    </button>
+                </Link>
+
             </td>
         </tr>
     )
