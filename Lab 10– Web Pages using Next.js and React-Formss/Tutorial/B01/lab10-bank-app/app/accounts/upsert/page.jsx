@@ -1,44 +1,47 @@
 'use client'
 import React from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { handleUpsertAccountAction } from '@/app/actions/server-actions'
 // import accountsRepo from '@/app/repo/accounts-repo'
 
 export default function AddOrEdit() {
-    const router = useRouter()
+    // const router = useRouter()
     const searchParams = useSearchParams()
     const accountToEdit = Object.fromEntries(searchParams.entries())
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        const formData = new FormData(e.target)
-        const account = Object.fromEntries(formData)
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault()
+    //     const formData = new FormData(e.target)
+    //     const account = Object.fromEntries(formData)
 
-        let method = 'POST'
-        let url = `/api/accounts/`
+    //     let method = 'POST'
+    //     let url = `/api/accounts/`
 
-        if (accountToEdit.accountNo) {
-            method = 'PUT';
-            url = `/api/accounts/${accountToEdit.accountNo}`
-        }
+    //     if (accountToEdit.accountNo) {
+    //         method = 'PUT';
+    //         url = `/api/accounts/${accountToEdit.accountNo}`
+    //     }
 
 
-        const options = {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(account)
-        }
-        await fetch(url, options);
-        // navigate to the home page
-        router.push('/')
+    //     const options = {
+    //         method: method,
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(account)
+    //     }
+    //     await fetch(url, options);
+    //     // navigate to the home page
+    //     router.push('/')
 
-    }
+    // }
 
     return (
         <>
             {<h3>{accountToEdit.accountNo ? 'Edit Account' : 'Add Account'}</h3>}
-            <form id="account-form" onSubmit={handleSubmit}>
+            <form id="account-form" action={handleUpsertAccountAction}>
+
+                <input type="hidden" name="accountNo" id="accountNo" defaultValue={accountToEdit.accountNo} />
                 <label htmlFor="firstname">First Name</label>
                 <input type="text" name="firstname" id="firstname"
                     defaultValue={accountToEdit.firstname} />
