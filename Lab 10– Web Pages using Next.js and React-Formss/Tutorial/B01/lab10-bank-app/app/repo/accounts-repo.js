@@ -18,13 +18,11 @@ class AccountsRepo {
 
     }
     async addAccount(account) {
-        if (account.acctType == 'Savings' || account.acctType == 'Current') {
-            account.balance = 0
-        } else {
-            account.balance = -1000
-        }
 
         account.accountNo = nanoid().slice(0, 4)
+        account.balance = parseInt(account.balance.toString());
+
+
         const accounts = await this.getAccounts()
         accounts.push(account)
         await fs.writeJSON(this.filePath, accounts)
@@ -64,9 +62,15 @@ class AccountsRepo {
         transaction.transId = nanoid().slice(0, 4)
         transaction.amount = parseInt(transaction.amount.toString());
 
+
         try {
             const accounts = await this.getAccounts();
             const account = accounts.find(account => account.accountNo == accountNo);
+            if (!account)
+                return { errorMessage: 'Account does not exit' }
+
+            account.balance = parseInt(account.balance.toString());
+
             if (transaction.transType == 'Deposit')
                 account.balance += transaction.amount;
             else if (transaction.transType == 'Withdraw')

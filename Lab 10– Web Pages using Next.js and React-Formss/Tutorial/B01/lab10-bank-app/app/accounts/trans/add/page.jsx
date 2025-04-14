@@ -1,8 +1,10 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 
 export default function Transactions() {
+    const router = useRouter()
     const [accounts, setAccounts] = useState([])
     // let accounts = []
     async function getAccounts() {
@@ -15,11 +17,27 @@ export default function Transactions() {
         getAccounts()
     }, [])
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const formData = new FormData(e.target)
+        const transaction = Object.fromEntries(formData)
 
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(transaction)
+        }
+        await fetch(`/api/accounts/${transaction.accountNo}/trans`, options)
+        // navigate to the home page
+        router.push('/')
+
+    }
     return (
         <>
             <h3>Add Transaction</h3>
-            <form id="trans-form">
+            <form id="trans-form" onSubmit={handleSubmit}>
                 <label htmlFor="accountNo">Account No</label>
                 <select name="accountNo" id="accountNo" required>
                     {accounts.map((acct, index) =>
