@@ -1,3 +1,4 @@
+import { addOrEditAccountAction } from '@/app/actions/server-actions'
 import React from 'react'
 
 export default function AddOrEdit() {
@@ -5,7 +6,7 @@ export default function AddOrEdit() {
     return (
         <>
             <h3>Add Account</h3>
-            <form id="account-form" className="form">
+            <form id="account-form" className="form" action={addOrEditAccountAction}>
                 <label htmlFor="firstname">First Name</label>
                 <input type="text" name="firstname" id="firstname" />
 
