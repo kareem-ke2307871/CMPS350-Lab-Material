@@ -64,6 +64,13 @@ form button:active {
     transform: scale(0.98);
 }
 
+.delete-form {
+    /* clear all the styles */
+    all: initial;
+    background-color: #28a745;
+
+}
+
 /* Labels */
 label {
     font-weight: 600;

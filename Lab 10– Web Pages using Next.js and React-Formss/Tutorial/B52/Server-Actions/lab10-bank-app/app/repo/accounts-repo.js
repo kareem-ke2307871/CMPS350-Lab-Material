@@ -18,10 +18,13 @@ class AccountsRepo {
 
     }
     async addAccount(account) {
+        if (account.acctType == 'Savings' || account.acctType == 'Current') {
+            account.balance = 0
+        } else {
+            account.balance = -1000
+        }
 
         account.accountNo = nanoid().slice(0, 4)
-        account.balance = parseInt(account.balance.toString());
-
         const accounts = await this.getAccounts()
         accounts.push(account)
         await fs.writeJSON(this.filePath, accounts)
@@ -63,12 +66,6 @@ class AccountsRepo {
 
         try {
             const accounts = await this.getAccounts();
-            if (!accounts.find(account => account.accountNo == accountNo))
-                return "Account does not exist";
-
-            // account.balance = parseInt(account.balance.toString());
-
-
             const account = accounts.find(account => account.accountNo == accountNo);
             if (transaction.transType == 'Deposit')
                 account.balance += transaction.amount;

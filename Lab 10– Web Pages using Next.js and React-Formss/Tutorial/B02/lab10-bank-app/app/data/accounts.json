@@ -1,1 +1,13 @@
-[{"accountNo":"AC4444","acctType":"Saving","balance":250000,"minimumBalance":1000,"firstname":"Yusuf","lastname":"Saleh","email":"yusuf.saleh@example.com","dateOpened":"2023-04-05","gender":"Male","profileImage":"https://randomuser.me/api/portraits/men/30.jpg"},{"accountNo":"AC9mVA","acctType":"Current","balance":"123","firstname":"Omar","lastname":"Farooq","email":"omar.farooq@example.com","dateOpened":"2023-06-15","gender":"Male","profileImage":"https://randomuser.me/api/portraits/men/40.jpg"},{"accountNo":"AC9988","acctType":"Current","balance":"2000","firstname":"Ibrahim","lastname":"Youssef","email":"ibrahim.youssef@example.com","dateOpened":"2023-08-10","gender":"Male","profileImage":"https://randomuser.me/api/portraits/men/50.jpg"},{"accountNo":"AC5544","acctType":"Saving","balance":"75000","firstname":"Ali","lastname":"Kareem","email":"ali.kareem@example.com","dateOpened":"2023-09-01","gender":"Male","profileImage":"https://randomuser.me/api/portraits/men/52.jpg"},{"accountNo":"AC3322","acctType":"Current","balance":"1200","firstname":"Layla","lastname":"Almasi","email":"layla.almasi@example.com","dateOpened":"2023-09-20","gender":"Female","profileImage":"https://randomuser.me/api/portraits/women/58.jpg"},{"firstname":"a","lastname":"a","acctType":"Saving","balance":-1000,"email":"","dateOpened":"","gender":"Male","profileImage":"","accountNo":"csV9"},{"firstname":"Ali","lastname":"Omar","acctType":"Saving","balance":-1000,"email":"asma@qu.edu.qa","dateOpened":"2025-04-09","gender":"Male","profileImage":"http://localhost:3000/accounts/upsert","accountNo":"nN4e"}]
+[
+    {
+        "firstname": "Ali",
+        "lastname": "Omar",
+        "acctType": "Saving",
+        "balance": -1000,
+        "email": "asma@qu.edu.qa",
+        "dateOpened": "2025-04-09",
+        "gender": "Male",
+        "profileImage": "http://localhost:3000/accounts/upsert",
+        "accountNo": "nN4e"
+    }
+]
