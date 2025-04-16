@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 export default function AccountRow({ acct, onDeleteAccount }) {
@@ -21,9 +22,16 @@ export default function AccountRow({ acct, onDeleteAccount }) {
                     <button onClick={e => onDeleteAccount(acct.accountNo)} className="btn-delete">
                         <i className="fas fa-trash">Delete</i>
                     </button> : ''}
-                <button onclick="handleEditAccount('{acct.accountNo}')" className="btn-edit">
-                    <i className="fas fa-edit">Edit</i>
-                </button>
+                <Link href={
+                    {
+                        pathname: '/accounts/upsert',
+                        query: acct
+                    }
+                }>
+                    <button className="btn-edit">
+                        <i className="fas fa-edit">Edit</i>
+                    </button>
+                </Link>
             </td>
         </tr>
     )
