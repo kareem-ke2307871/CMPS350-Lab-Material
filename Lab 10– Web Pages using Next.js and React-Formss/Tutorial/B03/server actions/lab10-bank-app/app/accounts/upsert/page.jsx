@@ -9,8 +9,11 @@ export default function AddOrEdit() {
     return (
         <>
 
-            <h3>Add Account</h3>
+            <h3> {(!account.accountNo) ? 'Add Account' : 'Edit Account'} </h3>
             <form id="account-form" className="form" action={addOrEditAccountAction}>
+
+                <input type="text" name="accountNo" defaultValue={account.accountNo} hidden />
+
                 <label htmlFor="firstname">First Name</label>
                 <input type="text" name="firstname" id="firstname" defaultValue={account.firstname} />
 

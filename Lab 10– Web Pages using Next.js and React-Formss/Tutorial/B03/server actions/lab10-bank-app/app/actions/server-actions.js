@@ -6,6 +6,12 @@ import accountsRepo from '@/app/repo/accounts-repo';
 
 export async function addOrEditAccountAction(formData) {
     const account = Object.fromEntries(formData);
-    await accountsRepo.addAccount(account);
+    if (account.accountNo !== '') {
+        await accountsRepo.updateAccount(account.accountNo, account);
+    } else {
+        await accountsRepo.addAccount(account);
+    }
+
+
     redirect('/')
 }
