@@ -1,4 +1,6 @@
+import Link from 'next/link'
 import React from 'react'
+import { deleteAccountAction } from '../actions/server-actions'
 
 export default function AccountRow({ acct, onDeleteAccount }) {
     return (
@@ -17,13 +19,23 @@ export default function AccountRow({ acct, onDeleteAccount }) {
             <td>{acct.email}</td>
             <td>{acct.dateOpened}</td>
             <td>
-                {acct.balance >= 0 ?
-                    <button onClick={e => onDeleteAccount(acct.accountNo)} className="btn-delete">
-                        <i className="fas fa-trash">Delete</i>
-                    </button> : ''}
-                <button onclick="handleEditAccount('{acct.accountNo}')" className="btn-edit">
-                    <i className="fas fa-edit">Edit</i>
-                </button>
+                <form action={deleteAccountAction}>
+                    <input type="text" name="accountNo" value={acct.accountNo} hidden />
+                    {acct.balance >= 0 ?
+                        <button className="btn-delete" type="submit">
+                            <i className="fas fa-trash">Delete</i>
+                        </button> : ''}
+                </form>
+                <Link href={
+                    {
+                        pathname: '/accounts/upsert',
+                        query: acct
+                    }
+                }>
+                    <button onclick="handleEditAccount('{acct.accountNo}')" className="btn-edit">
+                        <i className="fas fa-edit">Edit</i>
+                    </button>
+                </Link>
             </td>
         </tr>
     )
