@@ -2,91 +2,66 @@
 import fs from 'fs-extra'
 import { nanoid } from 'nanoid'
 import path from 'path'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
-
 
 class AccountsRepo {
     constructor() {
-        this.accountsFilePath = path.join(process.cwd(), 'app/data/accounts.json')
+        this.filePath = path.join(process.cwd(), 'app/data/accounts.json')
         this.transFilePath = path.join(process.cwd(), 'app/data/transactions.json')
     }
 
     async getAccounts(type) {
-        // console.log('account type is', type.toLowerCase());
-
-
-        let accounts = []
-        if (type && (type.toLowerCase() == 'saving' || type.toLowerCase() == 'current')) {
-            console.log('getting accounts of type', type);
-
-            accounts = await prisma.account.findMany({
-                where: {
-                    acctType: type
-                }
-            })
-
-        }
-        else
-            accounts = await prisma.account.findMany()
-        // console.log('the accounts are', accounts)
-        return accounts;
+        const accounts = await fs.readJSON(this.filePath)
+        if (type == 'Saving' || type == 'Current')
+            return accounts.filter(account => account
+                .acctType.toLowerCase() === type.toLowerCase())
+        return accounts
 
     }
     async addAccount(account) {
+        if (account.acctType == 'Savings' || account.acctType == 'Current') {
+            account.balance = 0
+        } else {
+            account.balance = -1000
+        }
 
-
-        return prisma.account.create({
-            data: account
-        })
-        // update the missing information of the account object
+        account.accountNo = nanoid().slice(0, 4)
+        const accounts = await this.getAccounts()
+        accounts.push(account)
+        await fs.writeJSON(this.filePath, accounts)
+        return account
     }
 
     async updateAccount(accountNo, account) {
-        console.log(account);
-
-        await prisma.account.update({
-            where: { accountNo },
-            data: account
-        })
-
-        const accounts = await fs.readJson(this.accountsFilePath)
+        const accounts = await fs.readJson(this.filePath)
         const index = accounts.findIndex(acc => acc.accountNo == accountNo)
         if (index >= 0) {
             accounts[index] = account
-            await fs.writeJson(this.accountsFilePath, accounts)
+            await fs.writeJson(this.filePath, accounts)
             return "updated successfully"
         }
         return "Unable to update account because it does not exist"
     }
 
-    async getAccount(accountNo) {
-        return prisma.account.findUnique({
-            where: { accountNo }
-        })
+    async getAccount(accNo) {
+        const accounts = await fs.readJson(this.filePath)
+        const account = accounts.find(acc => acc.accountNo == accNo)
+        if (account)
+            return account
+        else
+            return { errorMessage: 'Account does not exit' }
     }
 
-    async deleteAccount(accountNo) {
-        const count = await prisma.account.delete({
-            where: { accountNo }
-        })
-        console.log(count);
-
-        if (count <= 0) return "Account not found"
-        return "Deleted successfully"
+    async deleteAccount(accNo) {
+        const accounts = await fs.readJson(this.filePath)
+        const filteredAccounts = accounts.filter(acc => acc.accountNo != accNo)
+        await fs.writeJson(this.filePath, filteredAccounts)
+        return "deleted successfully"
     }
-
-    async getTransactions(accountNo) {
-        return prisma.transaction.findMany({
-            where: { accountNo }
-        })
-    }
-
     async addTransaction(accountNo, transaction) {
-        // accountNo = transaction.accountNo
+
         // update the missing information of the transaction object
         transaction.accountNo = accountNo
+        transaction.transId = nanoid().slice(0, 4)
         transaction.amount = parseInt(transaction.amount.toString());
 
         try {
@@ -100,21 +75,28 @@ class AccountsRepo {
                 else
                     account.balance -= transaction.amount;
 
+
             // update the account
-            this.updateAccount(account.accountNo, account)
+            await fs.writeJSON(this.filePath, accounts)
+
+
 
             // update the transaction file
             transaction.accountBalance = account.balance
 
-            await prisma.transaction.create({
-                data: transaction
-            })
+
+            const transactions = await fs.readJson(this.transFilePath)
+            transactions.push(transaction)
+            await fs.writeJson(this.transFilePath, transactions)
+
+
 
             return { message: 'transaction successful' }
         } catch (err) {
             throw err;
         }
     }
+
 
 }
 
