@@ -25,10 +25,10 @@ model account {
 }
 
 model transaction {
-  transId        String  @id @default(cuid())
-  studentId      String
+  transId        String   @id @default(cuid())
+  accountNo      String
   transType      String
   amount         Float
   accountBalance Float
-  account        account @relation(fields: [studentId], references: [accountNo])
+  account        account? @relation(fields: [accountNo], references: [accountNo])
 }

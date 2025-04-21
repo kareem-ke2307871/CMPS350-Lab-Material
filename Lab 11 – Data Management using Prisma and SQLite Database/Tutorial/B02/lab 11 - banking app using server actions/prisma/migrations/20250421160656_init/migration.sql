@@ -5,6 +5,7 @@ CREATE TABLE "account" (
     "lastname" TEXT NOT NULL,
     "acctType" TEXT NOT NULL,
     "balance" REAL NOT NULL,
+    "minimumBalance" REAL DEFAULT 0,
     "email" TEXT NOT NULL,
     "dateOpened" TEXT NOT NULL,
     "gender" TEXT NOT NULL,
@@ -14,9 +15,9 @@ CREATE TABLE "account" (
 -- CreateTable
 CREATE TABLE "transaction" (
     "transId" TEXT NOT NULL PRIMARY KEY,
-    "studentId" TEXT NOT NULL,
+    "accountNo" TEXT NOT NULL,
     "transType" TEXT NOT NULL,
     "amount" REAL NOT NULL,
     "accountBalance" REAL NOT NULL,
-    CONSTRAINT "transaction_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "account" ("accountNo") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "transaction_accountNo_fkey" FOREIGN KEY ("accountNo") REFERENCES "account" ("accountNo") ON DELETE RESTRICT ON UPDATE CASCADE
 );
