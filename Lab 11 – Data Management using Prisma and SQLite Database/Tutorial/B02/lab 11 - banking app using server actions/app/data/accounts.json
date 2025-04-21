@@ -1,12 +1,12 @@
 [
     {
         "accountNo": "AC1102",
-        "firstname": "Yusuf",
+        "firstname": "Yusuf 55",
         "lastname": "Saleh",
         "acctType": "Saving",
         "balance": 250000,
         "email": "yusuf.saleh@example.com",
-        "dateOpened": "2023-04-05T00:00:00.000Z",
+        "dateOpened": "",
         "gender": "Male",
         "profileImage": "https://randomuser.me/api/portraits/men/30.jpg"
     },
