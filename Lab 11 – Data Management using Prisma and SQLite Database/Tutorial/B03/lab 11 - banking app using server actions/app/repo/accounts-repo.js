@@ -3,6 +3,9 @@ import fs from 'fs-extra'
 import { nanoid } from 'nanoid'
 import path from 'path'
 
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
 class AccountsRepo {
     constructor() {
         this.filePath = path.join(process.cwd(), 'app/data/accounts.json')
@@ -10,25 +13,19 @@ class AccountsRepo {
     }
 
     async getAccounts(type) {
-        const accounts = await fs.readJSON(this.filePath)
+        // const accounts = await fs.readJSON(this.filePath)
+        // if (type == 'Saving' || type == 'Current')
+        //     return accounts.filter(account => account
+        //         .acctType.toLowerCase() === type.toLowerCase())
+        // return accounts
+        // 
         if (type == 'Saving' || type == 'Current')
-            return accounts.filter(account => account
-                .acctType.toLowerCase() === type.toLowerCase())
-        return accounts
+            return await prisma.account.findMany({ where: { acctType: type } })
+        return await prisma.account.findMany()
 
     }
     async addAccount(account) {
-        if (account.acctType == 'Savings' || account.acctType == 'Current') {
-            account.balance = 0
-        } else {
-            account.balance = -1000
-        }
-
-        account.accountNo = nanoid().slice(0, 4)
-        const accounts = await this.getAccounts()
-        accounts.push(account)
-        await fs.writeJSON(this.filePath, accounts)
-        return account
+        return await prisma.account.create({ data: account })
     }
 
     async updateAccount(accountNo, account) {
