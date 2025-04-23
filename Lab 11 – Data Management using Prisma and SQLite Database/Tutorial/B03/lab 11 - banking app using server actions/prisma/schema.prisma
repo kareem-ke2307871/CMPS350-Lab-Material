@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -12,23 +11,24 @@ datasource db {
 }
 
 model account {
-  accountNo    String        @id @default(cuid())
-  firstname    String
-  lastname     String
-  acctType     String
-  balance      Float
-  email        String
-  dateOpened   String
-  gender       String
-  profileImage String?
-  transactions transaction[]
+  accountNo      String        @id @default(cuid())
+  firstname      String
+  lastname       String
+  minimumBalance Float?
+  acctType       String
+  balance        Float
+  email          String
+  dateOpened     String
+  gender         String
+  profileImage   String?
+  transactions   transaction[]
 }
 
 model transaction {
   transId        String   @id @default(cuid())
   transType      String
   amount         Float
-  accountBalance Float
+  accountBalance Float?
   dateCreated    DateTime @default(now())
   accountNo      String
   account        account  @relation(fields: [accountNo], references: [accountNo])
