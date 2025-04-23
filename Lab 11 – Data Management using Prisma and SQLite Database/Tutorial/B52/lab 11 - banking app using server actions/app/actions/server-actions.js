@@ -13,7 +13,6 @@ function removeServerActionProperty(data) {
             break
         }
     }
-
     return data
 }
 export async function loadAccountsAction(acctType) {

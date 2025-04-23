@@ -64,6 +64,9 @@ class AccountsRepo {
             return { errorMessage: 'Account does not exit' }
     }
 
+    async getAccount(accountNo) {
+        return await prisma.account.findUnique({ where: { accountNo } })
+    }
     async deleteAccount(accNo) {
         // const accounts = await fs.readJson(this.filePath)
         // const filteredAccounts = accounts.filter(acc => acc.accountNo != accNo)
@@ -109,7 +112,34 @@ class AccountsRepo {
         }
     }
 
+    async getTrans(acctNo, fromDate, toDate) {
+        return await prisma.transaction.findMany({
+            where: {
+                accountNo: acctNo,
+                dateCreated: {
+                    gte: new Date(fromDate),
+                    lte: new Date(toDate)
+                }
+            }
+        })
+    }
 
+    async getAvgBalance() {
+        const averageBalance = await prisma.account.aggregate({
+            _avg: {
+                balance: true
+            }
+        })
+    }
+    async getAccountsTransactionByType(accountNo) {
+        await prisma.transaction.groupBy({
+            by: ['transType'],
+            _count: {
+                transType: true
+            },
+            where: { accountNo },
+        })
+    }
 }
 
 export default new AccountsRepo()
