@@ -32,8 +32,11 @@ export async function addOrEditAccountAction(formData) {
         console.log('updating account', account.accountNo);
 
     }
-    else
+    else {
+        delete account.accountNo
         await accountsRepo.addAccount(account);
+    }
+
 
     redirect('/')
 }
