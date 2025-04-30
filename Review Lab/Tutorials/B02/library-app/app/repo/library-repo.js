@@ -6,12 +6,14 @@ class LibraryRepo {
     // prisma.model.method[find, findMany , findUnique, delete , update]
     // Get all books
     async getAllBooks() {
-        return await prisma.book.findMany()
+        return await prisma.book.findMany({
+            include: { author: true }
+        })
     }
 
     // Get a specific book by ID
     async getBookById(bookId) {
-        return await prisma.book.findUnique({ where: { id: parseInt(bookId) } })
+        return await prisma.book.findUnique({ where: { id: parseInt(bookId) }, include: { author: true } })
     }
 
     // Create a new book
@@ -31,12 +33,14 @@ class LibraryRepo {
 
     // Get all authors
     async getAllAuthors() {
-        return await prisma.author.findMany()
+        return await prisma.author.findMany({
+            include: { books: true }
+        })
     }
 
     // Get a specific author by ID
     async getAuthorById(authorId) {
-        return await prisma.author.findUnique({ where: { id: parseInt(authorId) } })
+        return await prisma.author.findUnique({ where: { id: parseInt(authorId) }, include: { books: true } })
     }
 
     // Create a new author
