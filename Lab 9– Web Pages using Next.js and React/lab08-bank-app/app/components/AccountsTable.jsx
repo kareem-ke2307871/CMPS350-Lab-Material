@@ -3,6 +3,7 @@ import React from 'react'
 export default function AccountsTable({IntialAccounts}) {
   return (
     <table id="accounts">
+        <thead>
                 <tr>
                     <th>Profile Image</th>
                     <th>First Name</th>
@@ -15,7 +16,10 @@ export default function AccountsTable({IntialAccounts}) {
                     <th>Date Opened</th>
                     <th>Action</th>
                 </tr>
+        </thead>
+        <tbody>
                 {IntialAccounts.map(acct => <tr id={"row-" + acct.accountNo}>
+        
             <td><img src={acct.profileImage} alt="Profile Image" class="profile-pic"/></td>
             <td>{acct.firstname}</td>
             <td>{acct.lastname}</td>
@@ -35,6 +39,7 @@ export default function AccountsTable({IntialAccounts}) {
             </button>
             </td>
         </tr>   )} 
+        </tbody>
             </table>
   )
 }
